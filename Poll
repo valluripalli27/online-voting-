@@ -1,0 +1,29 @@
+package com.example.votingsystem.model;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
+
+@Entity
+public class Poll {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    private String title;
+    private String description;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date endDate;
+
+    private String status; // "active", "closed", etc.
+    
+    @OneToMany(mappedBy = "poll")
+    private List<Option> options;
+
+    // Getters and Setters
+}
