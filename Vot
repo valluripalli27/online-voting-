@@ -1,0 +1,21 @@
+package com.example.votingsystem.model;
+
+import javax.persistence.*;
+
+@Entity
+public class Vote {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "option_id", nullable = false)
+    private Option option;
+
+    // Getters and Setters
+}
