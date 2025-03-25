@@ -1,0 +1,45 @@
+package com.example.votingsystem.service;
+
+import com.example.votingsystem.model.Poll;
+import com.example.votingsystem.model.Vote;
+import com.example.votingsystem.repository.PollRepository;
+import com.example.votingsystem.repository.VoteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class PollService {
+
+    @Autowired
+    private PollRepository pollRepository;
+
+    @Autowired
+    private VoteRepository voteRepository;
+
+    public Poll createPoll(Poll poll) {
+        return pollRepository.save(poll);
+    }
+
+    public void vote(Long userId, Long optionId) {
+        // Logic to register the vote for a user
+        Vote vote = new Vote();
+        vote.setUserId(userId);
+        vote.setOptionId(optionId);
+        voteRepository.save(vote);
+        
+        // Update option vote count
+        Option option = optionRepository.findById(optionId);
+        option.setVotes(option.getVotes() + 1);
+        optionRepository.save(option);
+    }
+
+    public List<Poll> getActivePolls() {
+        return pollRepository.findByStatus("active");
+    }
+
+    public Poll getPollResults(Long pollId) {
+        return pollRepository.findById(pollId);
+    }
+}
